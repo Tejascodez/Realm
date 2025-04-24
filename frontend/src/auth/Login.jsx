@@ -1,68 +1,83 @@
-import { useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useCart } from '../pages/CartContext'; // Adjust path if needed
 
-export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { showNotification } = useCart();
 
-  const navigate = useNavigate()
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
     try {
-      const res = await fetch('http://localhost:3000/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.message || 'Login failed')
-  
-      // ✅ Save token
-      localStorage.setItem('token', data.token)
-  
-      // ✅ Optional: trigger manual storage event to update UI
-      window.dispatchEvent(new Event('storage'))
-  
-      alert('Login successful')
-      navigate('/books')
-    } catch (err) {
-      alert(err.message)
+      const response = await axios.post('http://localhost:3000/api/users/login', {
+        email,
+        password,
+      });
+
+      const { token, _id, name, email: userEmail } = response.data;
+      console.log('Login response:', response.data);
+
+      if (!token || !_id) {
+        throw new Error('Invalid login response: Missing token or user data');
+      }
+
+      const user = { _id, name, email: userEmail };
+
+      // Store token and user in localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+
+      console.log('Stored in localStorage:', {
+        token: localStorage.getItem('token'),
+        user: localStorage.getItem('user'),
+      });
+
+      showNotification('Login successful!', 'success');
+      navigate('/');
+    } catch (error) {
+      console.error('Login error:', error);
+      const message = error.response?.data?.message || 'Login failed. Please try again.';
+      showNotification(message, 'error');
     }
-  }
-  
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white">
-      <form onSubmit={handleSubmit} className="bg-pink-600 p-8 rounded-2xl shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
-        <input
-          className="w-full p-3 mb-4 rounded bg-black text-white border border-pink-400"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          className="w-full p-3 mb-4 rounded bg-black text-white border border-pink-400"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+    <div className="max-w-md mx-auto p-6 bg-gray-900 rounded-lg">
+      <h2 className="text-2xl font-bold text-white mb-6">Login</h2>
+      <form onSubmit={handleLogin}>
+        <div className="mb-4">
+          <label className="block text-gray-400 mb-2">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 bg-gray-800 rounded-lg text-white"
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-400 mb-2">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 bg-gray-800 rounded-lg text-white"
+            required
+          />
+        </div>
         <button
           type="submit"
-          className="w-full bg-black text-pink-500 border border-pink-500 py-3 rounded hover:bg-pink-500 hover:text-black transition-all"
+          className="w-full py-3 bg-pink-500 hover:bg-pink-600 text-black font-medium rounded-lg"
         >
-          Log In
+          Login
         </button>
-        <p className="mt-4 text-center text-sm">
-          Don't have an account? <Link to="/signup" className="text-white underline">Sign Up</Link>
-        </p>
       </form>
     </div>
-  )
-}
+  );
+};
+
+export default Login;

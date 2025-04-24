@@ -5,7 +5,7 @@ import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import bookRoutes from './routes/bookRoutes.js';
-import cartRoutes from './routes/cartRoutes.js';
+import rentalRoutes from './routes/rentalRoutes.js';
 
 config();
 const app = express();
@@ -14,8 +14,8 @@ app.use(cors());
 
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/cart', cartRoutes);
 app.use('/api/books', bookRoutes);
+app.use('/api/rentals', rentalRoutes);
 
 
 connect(process.env.MONGO_URI)

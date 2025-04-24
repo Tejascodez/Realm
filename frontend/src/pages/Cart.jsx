@@ -133,7 +133,7 @@ const Cart = () => {
                         <Button 
                           variant="danger" 
                           className="ml-6"
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(item._id)}
                         >
                           Remove
                         </Button>
@@ -217,7 +217,7 @@ const Cart = () => {
 
                   <div className="mt-8">
                     <Button variant="primary" className="w-full py-3">
-                      Proceed to Checkout
+                      Place Order
                     </Button>
                   </div>
 

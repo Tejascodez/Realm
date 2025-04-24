@@ -1,53 +1,35 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function MyRentals() {
-  const navigate = useNavigate();
-  const [rentals, setRentals] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Mock data - replace with your actual API call
-  useEffect(() => {
-    // Simulate API fetch
-    setTimeout(() => {
-      const mockRentals = [
-        {
-          id: '1',
-          title: 'The Midnight Library',
-          author: 'Matt Haig',
-          coverImage: '/api/placeholder/250/350',
-          rentedDate: '2025-04-15',
-          expiryDate: '2025-05-15',
-          progress: 23
-        },
-        {
-          id: '2',
-          title: 'Project Hail Mary',
-          author: 'Andy Weir',
-          coverImage: '/api/placeholder/250/350',
-          rentedDate: '2025-04-10',
-          expiryDate: '2025-05-10',
-          progress: 78
-        },
-        {
-          id: '3',
-          title: 'Dune',
-          author: 'Frank Herbert',
-          coverImage: '/api/placeholder/250/350',
-          rentedDate: '2025-04-20',
-          expiryDate: '2025-05-20',
-          progress: 5
+    const navigate = useNavigate();
+    const [rentals, setRentals] = useState([]);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      const fetchRentals = async () => {
+        try {
+          const response = await axios.get('http://localhost:3000/api/rentals');
+          const formatted = response.data.map((order) => ({
+            id: order._id,
+            title: order.bookId?.title || 'Untitled',
+            author: order.bookId?.author || 'Unknown',
+            coverImage: order.bookId?.coverImage || '/api/placeholder/250/350',
+            rentedDate: new Date(order.createdAt).toISOString().split('T')[0],
+            expiryDate: new Date(order.expiresAt).toISOString().split('T')[0],
+            progress: Math.floor(Math.random() * 100), // Or use real progress if available
+          }));
+          setRentals(formatted);
+          setLoading(false);
+        } catch (err) {
+          console.error('Failed to fetch rentals:', err);
+          setLoading(false);
         }
-      ];
-      setRentals(mockRentals);
-      setLoading(false);
-    }, 800);
-  }, []);
-
-  const handleStartReading = (id) => {
-    navigate(`/read/${id}`);
-  };
-
+      };
+  
+      fetchRentals();
+    }, []);
   return (
     <div className="min-h-screen bg-black text-white p-6">
       {/* Header */}
@@ -94,7 +76,7 @@ export default function MyRentals() {
                   </div>
                   
                   {/* Book Details */}
-                  <div className="flex-1  rounded-lg p-6 relative">
+                  <div className="flex-1 border border-pink-400 rounded-lg p-6 relative">
                     <h2 className="text-2xl font-bold text-pink-300">{book.title}</h2>
                     <p className="text-lg text-gray-300 mb-4">by {book.author}</p>
                     

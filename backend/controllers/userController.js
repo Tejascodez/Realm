@@ -32,27 +32,26 @@ export async function registerUser(req, res) {
 
 // Login
 export async function loginUser(req, res) {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user || !(await user.matchPassword(password))) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+    const { email, password } = req.body;
+  
+    try {
+      const user = await User.findOne({ email });
+  
+      if (!user || !(await user.matchPassword(password))) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id),
+      });
+      console.log("User logged in successfully");
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
-
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id),
-    });
-    console.log("User logged in successfully");
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
-}
-
 // Get Profile
 export async function getUserProfile(req, res) {
   try {

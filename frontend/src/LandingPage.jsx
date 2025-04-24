@@ -122,56 +122,56 @@ export default function LandingPage() {
       <Navbar/>
 
       {/* Hero Section with Parallax */}
-      <motion.section 
-        style={{ y: heroY }}
-        className="relative container mx-auto px-6 py-28 text-center"
+<motion.section 
+  style={{ y: heroY }}
+  className="relative container mx-auto px-6 py-28 text-center"
+>
+  <motion.div 
+    className="max-w-3xl mx-auto"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 1 }}
+  >
+    <motion.h2 
+      className="text-5xl md:text-6xl font-playfair font-bold mb-6 leading-tight tracking-tighter"
+      initial={{ y: 30, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.2, duration: 0.8 }}
+    >
+      RENT & READ
+      <br />
+      <motion.span 
+        className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-playfair"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8, duration: 0.8 }}
       >
-        <motion.div 
-          className="max-w-3xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <motion.h2 
-            className="text-5xl md:text-6xl font-bold mb-6 leading-tight"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            Rent & Read
-            <br />
-            <motion.span 
-              className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-            >
-              eBooks Online
-            </motion.span>
-          </motion.h2>
-          <motion.div 
-            className="relative max-w-2xl mx-auto mt-8"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1, duration: 0.6 }}
-          >
-            <input
-              type="text"
-              placeholder="Search for eBooks..."
-              className="w-full px-6 py-4 rounded-full bg-gray-900 border border-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent placeholder-gray-400 transition-all duration-300 hover:bg-gray-800"
-            />
-            <motion.button 
-              className="absolute right-2 top-2 bg-gradient-to-r from-pink-500 to-purple-500 p-2 rounded-full transition-transform duration-300"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </motion.button>
-          </motion.div>
-        </motion.div>
-      </motion.section>
+        eBooks Online
+      </motion.span>
+    </motion.h2>
+    <motion.div 
+      className="relative max-w-2xl mx-auto mt-8"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 1, duration: 0.6 }}
+    >
+      <input
+        type="text"
+        placeholder="Search for eBooks..."
+        className="w-full px-6 py-4 rounded-full bg-gray-900 border border-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent placeholder-gray-400 transition-all duration-300 hover:bg-gray-800 font-poppins"
+      />
+      <motion.button 
+        className="absolute right-2 top-2 bg-gradient-to-r from-pink-500 to-purple-500 p-2 rounded-full transition-transform duration-300 font-poppins font-semibold"
+        whileHover={{ scale: 1.1, rotate: 5 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </motion.button>
+    </motion.div>
+  </motion.div>
+</motion.section>
 
       {/* Featured Books with Slider Animation */}
       <motion.section 

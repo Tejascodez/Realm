@@ -583,7 +583,7 @@ const Books = () => {
                     <div className="flex flex-col md:flex-row justify-between items-center">
                         <div className="mb-6 md:mb-0">
                             <h2 className="text-xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                                BOOKHUB
+                                RealM
                             </h2>
                             <p className="text-gray-400 mt-2">Your digital reading companion.</p>
                         </div>
@@ -600,7 +600,7 @@ const Books = () => {
                         </div>
                     </div>
                     <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-                        &copy; {new Date().getFullYear()} BOOKHUB. All rights reserved.
+                        &copy; {new Date().getFullYear()} RealM. All rights reserved.
                     </div>
                 </div>
             </footer>

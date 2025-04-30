@@ -18,8 +18,6 @@ router.get('/', getAllBooks);
 // GET free books
 router.get('/free', getFreeBooks);
 
-// GET books by category
-router.get('/category/:category', getBooksByCategory);
 
 // GET a specific book
 router.get('/:id', getBookById);

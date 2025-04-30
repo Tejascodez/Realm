@@ -38,16 +38,23 @@ const Navbar = ({ cartCount = 0 }) => {
           </Link>
           
           <div className="hidden md:flex space-x-8">
-            {["Home", "Categories", "My Rentals"].map((item) => (
-              <Link 
-                key={item} 
-                to={item === "Home" ? "/" : `/${item.toLowerCase().replace(' ', '-')}`}
-                className="relative group text-gray-300 hover:text-white transition-all duration-300"
-              >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-pink-400 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            ))}
+          {["Home", "Categories", "My Rentals"].map((item) => (
+  <Link 
+    key={item} 
+    to={
+      item === "Home"
+        ? "/"
+        : item === "Categories"
+        ? "/category" // <-- Set default category route here
+        : `/${item.toLowerCase().replace(' ', '-')}`
+    }
+    className="relative group text-gray-300 hover:text-white transition-all duration-300"
+  >
+    {item}
+    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-pink-400 transition-all duration-300 group-hover:w-full"></span>
+  </Link>
+))}
+
           </div>
           
           <div className="flex items-center space-x-4">

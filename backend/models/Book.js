@@ -13,7 +13,13 @@ const bookSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    category: String,
+    category: { 
+      type: String, 
+      enum: ['fiction', 'non-fiction', 'romance', 'dark-romance', 'fantasy', 'others'],
+      required: true,
+      lowercase: true,
+      trim: true
+    },
     contentPdf: {
       type: String, // Can be a URL or file path
       required: true,

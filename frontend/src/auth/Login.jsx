@@ -43,8 +43,8 @@ const Login = () => {
         localStorage.setItem('rememberMe', 'true');
       }
       
-      showNotification('Login successful! Welcome back to BookRent.', 'success');
-      navigate('/');
+      showNotification('Login successful! Welcome back to RealM 🥰', 'success');
+      navigate('/books');
     } catch (error) {
       const message = error.response?.data?.message || 'Login failed. Please try again.';
       showNotification(message, 'error');

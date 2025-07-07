@@ -371,7 +371,7 @@ const Books = () => {
             id: 101,
             title: "In Good Company",
             author: "Ava Winters",
-            price: "$5.99",
+            price: "599",
             ratings: 4.7,
             image: "https://m.media-amazon.com/images/I/81lgPIQzN5L._SY522_.jpg"
         },
@@ -379,7 +379,7 @@ const Books = () => {
             id: 102,
             title: "Say you will Remember me",
             author: "Liam Harper",
-            price: "$6.49",
+            price: "649",
             ratings: 4.5,
             image: "https://m.media-amazon.com/images/I/51wU-9LD7xL._SY445_SX342_QL70_FMwebp_.jpg"
         },
@@ -387,7 +387,7 @@ const Books = () => {
             id: 103,
             title: "My Happy Place",
             author: "Sophia Bennett",
-            price: "$4.99",
+            price: "599",
             ratings: 4.8,
             image: "https://ombooks.com/wp-content/uploads/2024/05/9780241995365.jpg"
         }
@@ -465,7 +465,9 @@ const Books = () => {
                                             </div>
                                             <span className="ml-2 text-gray-400 text-sm">{book.ratings}/5.0</span>
                                         </div>
-                                        <p className="text-xl font-bold text-pink-400 mb-6">{book.price}</p>
+                                        <p className="text-xl font-bold text-pink-400 mb-6">
+  ₹{book.price}
+</p>
                                         <div className="flex space-x-4">
                                             <Button variant="primary" className="px-8" onClick={() => openRentalModal(book)}>
                                                 Rent Now

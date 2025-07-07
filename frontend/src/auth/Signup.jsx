@@ -3,41 +3,32 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../pages/CartContext';
 
 const Signup = () => {
-  // ... (keep existing state and logic)
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [loading, setLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const { showNotification } = useCart();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       showNotification('Passwords do not match', 'error');
       return;
     }
-
     if (!agreeTerms) {
       showNotification('Please agree to the Terms of Service', 'error');
       return;
     }
 
     setLoading(true);
-    
     try {
       const res = await fetch('http://localhost:3000/api/users/register', {
         method: 'POST',
@@ -48,13 +39,10 @@ const Signup = () => {
           password: formData.password,
         }),
       });
-      
       const data = await res.json();
-      
       if (!res.ok) throw new Error(data.message || 'Signup failed');
-      
       showNotification('Account created successfully!', 'success');
-      navigate('/login'); // Redirect to login after successful signup
+      navigate('/login');
     } catch (err) {
       showNotification(err.message, 'error');
     } finally {
@@ -63,153 +51,80 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-black relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute w-96 h-96 bg-purple-500/30 rounded-full -top-48 -left-48 blur-3xl animate-pulse"></div>
-        <div className="absolute w-96 h-96 bg-pink-500/30 rounded-full -bottom-48 -right-48 blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
-      {/* Left Section: Welcome */}
-      <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-purple-700 to-pink-500 items-center justify-center p-10 text-white relative">
-        <div className="text-center relative z-10">
-          <h1 className="text-6xl font-bold mb-6 font-[Poppins] tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-pink-100">
-            RealM 
-          </h1>
-          <p className="text-xl mb-10 opacity-90 font-light">
-            Discover your next favorite story. Join our community of passionate readers.
-          </p>
-          
-          <div className="flex justify-center mt-6">
-            <div className="text-9xl mb-4 animate-float">
-              📚
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-xl"></div>
-            </div>
-          </div>
+    <div className="min-h-screen flex bg-gradient-to-br from-gray-950 to-gray-900 text-white">
+      {/* Left Side */}
+      <div className="hidden lg:flex w-1/2 justify-center items-center relative p-8">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-800/30 to-slate-900/30 z-0 rounded-3xl blur-2xl"></div>
+        <div className="relative z-10 text-center">
+          <h1 className="text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 animate-gradient">Realm</h1>
+          <p className="mt-6 text-xl max-w-md mx-auto leading-relaxed">Join our community of passionate readers and discover your next favorite story.</p>
+          <div className="mt-10 animate-float w-60 h-48 mx-auto bg-gradient-to-br from-blue-600 to-cyan-500 rounded-3xl shadow-lg flex items-center justify-center text-7xl">📚</div>
         </div>
       </div>
-      
-      {/* Right Section: Signup */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-10 relative">
-        <div className="w-full max-w-md bg-gray-900/95 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-purple-500/30 relative overflow-hidden">
-          {/* Animated Border Glow */}
-          <div className="absolute -inset-2 bg-gradient-to-r from-purple-600/30 to-pink-500/30 rounded-2xl blur-xl animate-border-glow"></div>
-          
-          {/* Logo Container */}
-          <div className="flex justify-center mb-8">
-            <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg hover:rotate-12 transition-transform duration-300">
-              <span className="text-white text-2xl font-bold tracking-tighter">RealM</span>
-            </div>
-          </div>
-          
-          <h2 className="text-3xl font-bold text-white text-center mb-8 font-[Poppins]">
-            Create Your Account
-          </h2>
-          
+
+      {/* Right Side */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6">
+        <div className="w-full max-w-md bg-slate-900/80 p-10 rounded-3xl shadow-xl backdrop-blur-md border border-slate-800 relative">
+          <h2 className="text-3xl font-bold text-center mb-6">Create Account</h2>
+
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Input Fields */}
-            {[
-              { label: 'Full Name', name: 'name', type: 'text', icon: '👤' },
-              { label: 'Email Address', name: 'email', type: 'email', icon: '✉️' },
-              { label: 'Password', name: 'password', type: 'password', icon: '🔒' },
-              { label: 'Confirm Password', name: 'confirmPassword', type: 'password', icon: '🔒' },
-            ].map((field) => (
-              <div key={field.name}>
-                <label className="block text-gray-300/90 mb-2 font-medium text-sm tracking-wide">
-                  {field.label}
-                </label>
-                <div className="relative group">
-                  <input
-                    type={field.type}
-                    name={field.name}
-                    value={formData[field.name]}
-                    onChange={handleChange}
-                    className="w-full p-4 bg-gray-800/50 rounded-xl text-white border-2 border-gray-700/50 focus:border-purple-500/80 focus:ring-4 focus:ring-purple-500/20 transition-all duration-300 placeholder-gray-500 group-hover:border-purple-500/30"
-                    placeholder={field.type === 'password' ? '••••••••' : field.label}
-                    required
-                  />
-                  <span className="absolute right-4 top-4 text-gray-400/80 group-hover:text-purple-400 transition-colors">
-                    {field.icon}
-                  </span>
-                </div>
-              </div>
-            ))}
-            
-            {/* Terms Checkbox */}
-            <div className="flex items-center space-x-3">
-              <div className="relative flex items-center">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  checked={agreeTerms}
-                  onChange={(e) => setAgreeTerms(e.target.checked)}
-                  className="w-5 h-5 appearance-none bg-gray-800/50 border-2 border-gray-700/50 rounded-md checked:bg-purple-500 checked:border-purple-500 focus:ring-2 focus:ring-purple-500/30 cursor-pointer transition-colors"
-                />
-                <svg 
-                  className="absolute left-1 top-1 w-3 h-3 pointer-events-none opacity-0 transition-opacity duration-200"
-                  style={{ display: agreeTerms ? 'block' : 'none' }}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="3"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <label htmlFor="terms" className="text-sm text-gray-300/80 leading-tight">
+            <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} type="text" />
+            <InputField label="Email Address" name="email" value={formData.email} onChange={handleChange} type="email" />
+            <InputField label="Password" name="password" value={formData.password} onChange={handleChange} type={showPassword ? 'text' : 'password'} toggle={() => setShowPassword(!showPassword)} show={showPassword} />
+            <InputField label="Confirm Password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} type={showConfirmPassword ? 'text' : 'password'} toggle={() => setShowConfirmPassword(!showConfirmPassword)} show={showConfirmPassword} />
+
+            <div className="flex items-start gap-2">
+              <input
+                type="checkbox"
+                checked={agreeTerms}
+                onChange={(e) => setAgreeTerms(e.target.checked)}
+                className="w-4 h-4 accent-blue-500"
+              />
+              <label className="text-sm">
                 I agree to the{' '}
-                <Link to="/terms" className="text-purple-400 hover:text-purple-300 transition-colors font-medium">
-                  Terms
-                </Link>{' '}
-                and{' '}
-                <Link to="/privacy" className="text-purple-400 hover:text-purple-300 transition-colors font-medium">
-                  Privacy Policy
-                </Link>
+                <Link to="/terms" className="text-blue-400 hover:underline">Terms of Service</Link>{' '}and{' '}
+                <Link to="/privacy" className="text-blue-400 hover:underline">Privacy Policy</Link>
               </label>
             </div>
-            
-            {/* Submit Button */}
+
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-600/90 hover:to-pink-500/90 text-white font-medium rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-purple-500/20 relative overflow-hidden"
+              className="w-full py-3 mt-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 font-semibold transition disabled:opacity-50"
             >
-              {/* Animated Button Background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-              
-              {loading ? (
-                <span className="flex items-center justify-center space-x-2">
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  <span>Creating Account...</span>
-                </span>
-              ) : (
-                <span className="relative flex items-center justify-center space-x-2">
-                  <span>Get Started</span>
-                  <svg className="w-4 h-4 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                  </svg>
-                </span>
-              )}
+              {loading ? 'Creating Account...' : 'Get Started'}
             </button>
-            
-            {/* Login Link */}
-            <div className="text-center mt-6">
-              <p className="text-gray-300/80">
-                Already registered?{' '}
-                <Link to="/login" className="text-purple-400 hover:text-purple-300 font-medium transition-colors group">
-                  Sign In
-                  <span className="block h-0.5 bg-purple-500/30 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
-                </Link>
-              </p>
-            </div>
           </form>
+
+          <p className="text-sm text-center mt-8">
+            Already have an account?{' '}
+            <Link to="/login" className="text-blue-400 hover:underline">Sign In</Link>
+          </p>
         </div>
       </div>
     </div>
   );
 };
+
+const InputField = ({ label, name, value, onChange, type, toggle, show }) => (
+  <div>
+    <label className="block text-sm mb-1 font-medium">{label}</label>
+    <div className="relative">
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="w-full p-3 pr-10 rounded-lg bg-slate-800 text-white border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        required
+      />
+      {toggle && (
+        <button type="button" onClick={toggle} className="absolute right-3 top-3 text-gray-400 hover:text-blue-400">
+          {show ? '🙈' : '👁️'}
+        </button>
+      )}
+    </div>
+  </div>
+);
 
 export default Signup;

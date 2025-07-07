@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
+import Carosel from "./components/Carosel";
 import Navbar from "./components/Navbar";
-import { motion, useAnimation, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import FeaturedBooks from "./components/FeaturedBooks";
 
 export default function LandingPage() {
   const { scrollY } = useScroll();
@@ -18,54 +19,6 @@ export default function LandingPage() {
     sequence();
   }, [controls]);
 
-  const books = [
-    { 
-      id: 1, 
-      title: "The Silent Echo", 
-      author: "Maya Shepherd",
-      price: "$4.99",
-      ratings: 4.5
-    },
-    { 
-      id: 2, 
-      title: "Quantum Theory", 
-      author: "Richard Dawkins",
-      price: "$6.99",
-      ratings: 4.7
-    },
-    { 
-      id: 3, 
-      title: "The Last Theorem", 
-      author: "Samuel Johnson",
-      price: "$5.99",
-      ratings: 4.2
-    },
-    { 
-      id: 4, 
-      title: "Midnight's Children", 
-      author: "Salman Rushdie",
-      price: "$7.99",
-      ratings: 4.8
-    },
-    { 
-      id: 5, 
-      title: "Dark Matter", 
-      author: "Blake Crouch",
-      price: "$3.99",
-      ratings: 4.6
-    },
-    { 
-      id: 6, 
-      title: "The Alchemist", 
-      author: "Paulo Coelho",
-      price: "$4.99",
-      ratings: 4.9
-    }
-  ];
-
-  // Featured books for carousel
-  const featuredBooks = books.slice(0, 3);
-  
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -98,15 +51,15 @@ export default function LandingPage() {
       }
     },
     hover: { 
-      y: -15, 
-      boxShadow: "0 20px 25px -5px rgba(236, 72, 153, 0.1), 0 10px 10px -5px rgba(236, 72, 153, 0.04)" 
+      y: -10, 
+      boxShadow: "0 20px 25px -5px rgba(59, 130, 246, 0.15), 0 10px 10px -5px rgba(59, 130, 246, 0.08)" 
     }
   };
   
   const buttonVariants = {
     hover: { 
       scale: 1.05,
-      boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.4), 0 4px 6px -2px rgba(236, 72, 153, 0.1)",
+      boxShadow: "0 10px 15px -3px rgba(59, 130, 246, 0.4), 0 4px 6px -2px rgba(59, 130, 246, 0.1)",
       transition: { 
         type: "spring", 
         stiffness: 400, 
@@ -116,451 +69,413 @@ export default function LandingPage() {
     tap: { scale: 0.95 }
   };
 
+  const categories = [
+    { name: "Fiction", desc: "Novels and stories from various genres", icon: "📚" },
+    { name: "Non-fiction", desc: "Informative and factual books", icon: "📖" },
+    { name: "Science", desc: "Scientific topics and discoveries", icon: "🔬" },
+    { name: "Fantasy", desc: "Magic and mythical adventures", icon: "🐉" },
+    { name: "History", desc: "Historical events and figures", icon: "🏛️" },
+    { name: "Technology", desc: "Innovation and the digital world", icon: "💻" },
+  ];
+
+  const stats = [
+    { number: "10,000+", label: "Books Available", icon: "📚" },
+    { number: "50,000+", label: "Active Readers", icon: "👥" },
+    { number: "500+", label: "New Releases Monthly", icon: "⭐" },
+    { number: "24/7", label: "Customer Support", icon: "🛟" }
+  ];
+
+  const features = [
+    {
+      icon: "📱",
+      title: "Cross-Platform Access",
+      description: "Read on any device - phone, tablet, or computer. Your library syncs everywhere.",
+      color: "from-blue-500 to-cyan-500"
+    },
+    {
+      icon: "🔍",
+      title: "Smart Search",
+      description: "Find exactly what you're looking for with our AI-powered search and recommendations.",
+      color: "from-purple-500 to-pink-500"
+    },
+    {
+      icon: "💾",
+      title: "Offline Reading",
+      description: "Download books for offline reading. Perfect for travel or areas with poor connectivity.",
+      color: "from-green-500 to-emerald-500"
+    },
+    {
+      icon: "🎨",
+      title: "Customizable Experience",
+      description: "Adjust fonts, themes, and reading settings to create your perfect reading environment.",
+      color: "from-orange-500 to-red-500"
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       {/* Navbar */}
       <Navbar/>
 
       {/* Hero Section with Parallax */}
-<motion.section 
-  style={{ y: heroY }}
-  className="relative container mx-auto px-6 py-28 text-center"
->
-  <motion.div 
-    className="max-w-3xl mx-auto"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 1 }}
-  >
-    <motion.h2 
-      className="text-5xl md:text-6xl font-playfair font-bold mb-6 leading-tight tracking-tighter"
-      initial={{ y: 30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.2, duration: 0.8 }}
-    >
-      RENT & READ
-      <br />
-      <motion.span 
-        className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-playfair"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.8 }}
-      >
-        eBooks Online
-      </motion.span>
-    </motion.h2>
-    <motion.div 
-      className="relative max-w-2xl mx-auto mt-8"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 1, duration: 0.6 }}
-    >
-      <input
-        type="text"
-        placeholder="Search for eBooks..."
-        className="w-full px-6 py-4 rounded-full bg-gray-900 border border-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent placeholder-gray-400 transition-all duration-300 hover:bg-gray-800 font-poppins"
-      />
-      <motion.button 
-        className="absolute right-2 top-2 bg-gradient-to-r from-pink-500 to-purple-500 p-2 rounded-full transition-transform duration-300 font-poppins font-semibold"
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </motion.button>
-    </motion.div>
-  </motion.div>
-</motion.section>
+      <Carosel/>
 
-      {/* Featured Books with Slider Animation */}
+      {/* Featured Books */}
+      <FeaturedBooks/>
+
+      {/* Stats Section */}
       <motion.section 
-        className="container mx-auto px-6 py-8 border-b border-gray-800"
+        className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 py-20"
         initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={staggerContainer}
       >
-        <motion.h2 
-          className="text-2xl font-bold mb-6"
-          variants={fadeInUp}
-        >
-          Featured Books
-        </motion.h2>
-        <motion.div 
-          className="relative w-full overflow-hidden rounded-xl bg-gray-900 p-6"
-          variants={staggerContainer}
-        >
+        <div className="container mx-auto px-6">
           <motion.div 
-            className="flex items-center space-x-8"
-            initial={{ x: 300 }}
-            animate={{ x: 0 }}
-            transition={{ type: "spring", stiffness: 50 }}
+            className="text-center mb-16"
+            variants={fadeInUp}
           >
-            {featuredBooks.map((book, index) => (
-              <motion.div 
-                key={book.id} 
-                className="flex-shrink-0 w-full md:w-1/3"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.2 }}
-                whileHover="hover"
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Trusted by Readers Worldwide
+            </h2>
+            <p className="text-blue-100 text-lg max-w-2xl mx-auto">
+              Join thousands of book lovers who have discovered their next favorite read with REALM
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            variants={staggerContainer}
+          >
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                className="text-center"
                 variants={cardVariants}
+                whileHover={{ scale: 1.05 }}
               >
-                <div className="bg-gradient-to-br from-pink-500/20 to-purple-500/20 p-6 rounded-xl border border-pink-500/30 h-full">
-                  <motion.div 
-                    className="w-full h-48 bg-gray-800 rounded-lg mb-4 flex items-center justify-center"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <motion.svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      className="h-16 w-16 text-pink-400 opacity-60" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke="currentColor"
-                      initial={{ rotate: 0 }}
-                      whileHover={{ rotate: 10, scale: 1.1 }}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </motion.svg>
-                  </motion.div>
-                  <h3 className="text-xl font-bold text-white mb-2">{book.title}</h3>
-                  <p className="text-gray-400 mb-2">By {book.author}</p>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-pink-400 font-bold">{book.price}</span>
-                    <div className="flex items-center">
-                      <motion.svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        className="h-5 w-5 text-yellow-400" 
-                        viewBox="0 0 20 20" 
-                        fill="currentColor"
-                        initial={{ rotate: 0 }}
-                        whileHover={{ rotate: 360, scale: 1.2 }}
-                        transition={{ duration: 0.8 }}
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </motion.svg>
-                      <span className="ml-1 text-gray-300">{book.ratings}</span>
-                    </div>
-                  </div>
-                  <motion.button 
-                    className="bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-2 rounded-full transition-all duration-300"
-                    whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.4)" }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Rent Now
-                  </motion.button>
-                </div>
+                <div className="text-4xl mb-4">{stat.icon}</div>
+                <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
+                <div className="text-blue-100 text-sm">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
-          <motion.button 
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black rounded-full p-2 text-white z-10"
-            whileHover={{ scale: 1.2, backgroundColor: "rgba(0,0,0,0.9)" }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </motion.button>
-          <motion.button 
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black rounded-full p-2 text-white z-10"
-            whileHover={{ scale: 1.2, backgroundColor: "rgba(0,0,0,0.9)" }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </motion.button>
-        </motion.div>
+        </div>
       </motion.section>
 
-      {/* Categories with SVG Icons */}
+      {/* Features Section */}
       <motion.section 
-        className="container mx-auto px-6 py-16"
+        className="py-20 bg-white"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.2 }}
         variants={staggerContainer}
       >
-        <motion.h3 
-          className="text-3xl font-bold mb-12 text-center"
-          variants={fadeInUp}
-        >
-          Categories
-        </motion.h3>
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          variants={staggerContainer}
-        >
-          {[
-            { 
-              name: "Fiction", 
-              desc: "Novels and stories from various genres", 
-              svg: (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                </svg>
-              )
-            },
-            { 
-              name: "Non-fiction", 
-              desc: "Informative and factual books", 
-              svg: (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                </svg>
-              )
-            },
-            { 
-              name: "Science", 
-              desc: "Scientific topics and discoveries", 
-              svg: (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <path d="M9 18v-7"></path>
-                  <path d="M15 18v-7"></path>
-                  <path d="M9 14h6"></path>
-                </svg>
-              )
-            },
-            { 
-              name: "Fantasy", 
-              desc: "Magic and mythical adventures", 
-              svg: (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2a3 3 0 0 0-3 3v1h6V5a3 3 0 0 0-3-3Z"></path>
-                  <path d="M19 5H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"></path>
-                  <path d="M17 11v3a4 4 0 0 1-4 4h-2a4 4 0 0 1-4-4v-3"></path>
-                  <path d="M11.35 15H8"></path>
-                  <path d="M16 15h-2.35"></path>
-                </svg>
-              )
-            },
-            { 
-              name: "History", 
-              desc: "Historical events and figures", 
-              svg: (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-              )
-            },
-            { 
-              name: "Technology", 
-              desc: "Innovation and digital world", 
-              svg: (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                  <line x1="8" y1="21" x2="16" y2="21"></line>
-                  <line x1="12" y1="17" x2="12" y2="21"></line>
-                </svg>
-              )
-            },
-          ].map((cat, index) => (
-            <motion.div
-              key={index}
-              variants={cardVariants}
-              whileHover="hover"
-              custom={index}
-            >
-              <Link
-                to={`/books?category=${encodeURIComponent(cat.name)}`}
-                className="p-8 bg-gray-900 rounded-2xl border border-gray-800 hover:border-pink-500/40 hover:shadow-lg hover:shadow-pink-500/10 transition-all duration-300 cursor-pointer group block"
+        <div className="container mx-auto px-6">
+          <motion.div 
+            className="text-center mb-16"
+            variants={fadeInUp}
+          >
+            <h2 className="text-4xl font-bold text-slate-800 mb-4">
+              Why Choose <span className="text-blue-600">REALM</span>?
+            </h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+              We've built the ultimate reading experience with features designed for modern book lovers
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto"
+            variants={staggerContainer}
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                className="group relative overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200"
+                variants={cardVariants}
+                whileHover="hover"
               >
-                <motion.div 
-                  className="mb-6 text-pink-400 transform transition-transform duration-500 group-hover:text-pink-300"
-                  whileHover={{ rotate: 12 }}
-                >
-                  <motion.div 
-                    className="w-16 h-16"
-                    whileHover={{ scale: 1.1 }}
-                  >{cat.svg}</motion.div>
-                </motion.div>
-                <h4 className="text-2xl font-semibold mb-3">{cat.name}</h4>
-                <p className="text-gray-400 text-lg">{cat.desc}</p>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
+                <div className="p-8">
+                  <div className="flex items-center mb-6">
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br  ₹{feature.color} flex items-center justify-center text-2xl shadow-lg`}>
+                      {feature.icon}
+                    </div>
+                    <div className="ml-4">
+                      <h3 className="text-xl font-semibold text-slate-800 group-hover:text-blue-600 transition-colors duration-300">
+                        {feature.title}
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="text-slate-600 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+                <div className={`absolute inset-0 bg-gradient-to-br  ₹{feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </motion.section>
 
-      {/* CTA Section */}
+      {/* Reading Experience Showcase */}
       <motion.section 
-        className="bg-gradient-to-r from-pink-500/10 to-purple-500/10 py-20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        className="py-20 bg-gradient-to-br from-slate-50 to-blue-50"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={staggerContainer}
       >
-        <div className="container mx-auto px-6 text-center">
-          <motion.h3 
-            className="text-4xl font-bold mb-8"
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
+            <motion.div 
+              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+              variants={staggerContainer}
+            >
+              <motion.div variants={fadeInUp}>
+                <h2 className="text-4xl font-bold text-slate-800 mb-6">
+                  Immersive Reading Experience
+                </h2>
+                <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+                  Discover a new way to read with our advanced digital platform. From highlighting and note-taking to progress tracking and reading goals, every feature is designed to enhance your reading journey.
+                </p>
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-slate-700">Personalized reading recommendations</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-slate-700">Advanced highlighting and note-taking</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-slate-700">Reading progress and goal tracking</span>
+                  </div>
+                </div>
+                <motion.button 
+                  className="mt-8 bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Start Reading Today
+                </motion.button>
+              </motion.div>
+              
+              <motion.div 
+                className="relative"
+                variants={fadeInUp}
+              >
+                <div className="bg-white rounded-2xl shadow-2xl p-8 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                  <div className="mb-6">
+                    <div className="flex items-center mb-4">
+                      <div className="w-8 h-8 bg-blue-500 rounded-full mr-3"></div>
+                      <div>
+                        <div className="text-sm font-semibold text-slate-800">The Great Gatsby</div>
+                        <div className="text-xs text-slate-500">by F. Scott Fitzgerald</div>
+                      </div>
+                    </div>
+                    <div className="bg-slate-50 p-4 rounded-lg text-sm text-slate-700 leading-relaxed">
+                      "In his blue gardens men and girls came and went like moths among the whisperings and the champagne and the stars..."
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-600">Reading Progress</span>
+                      <span className="text-sm font-semibold text-blue-600">68%</span>
+                    </div>
+                    <div className="w-full bg-slate-200 rounded-full h-2">
+                      <div className="bg-blue-500 h-2 rounded-full w-2/3"></div>
+                    </div>
+                    <div className="flex justify-between text-xs text-slate-500">
+                      <span>Chapter 7</span>
+                      <span>2h 15m remaining</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Categories */}
+      <motion.section
+        className="bg-gradient-to-br from-slate-50 to-white py-20"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={staggerContainer}
+      >
+        <div className="container mx-auto px-6">
+          <motion.h3
+            className="text-4xl font-bold mb-16 text-center text-slate-800 tracking-tight"
+            variants={fadeInUp}
           >
-            Start Your Reading Journey
+            Browse Categories
           </motion.h3>
-          <motion.div 
-            className="flex justify-center gap-6"
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={staggerContainer}
           >
-            <motion.button 
-              className="bg-gradient-to-r from-pink-500 to-purple-500 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300"
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
-            >
-              Explore Library
-            </motion.button>
-            <motion.button 
-              className="px-8 py-4 rounded-full text-lg font-semibold border-2 border-pink-500 transition-all duration-300"
-              variants={buttonVariants}
-              whileHover={{ scale: 1.05, borderColor: "rgba(236, 72, 153, 0.8)" }}
-              whileTap="tap"
-            >
-              Learn More
-            </motion.button>
+            {categories.map((cat, index) => (
+              <motion.div
+                key={index}
+                variants={cardVariants}
+                whileHover="hover"
+                className="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-300 group"
+              >
+                <div className="flex justify-center mb-6">
+                  <div className="text-5xl transition-transform duration-300 group-hover:scale-125">
+                    {cat.icon}
+                  </div>
+                </div>
+                <h4 className="text-xl font-semibold text-center text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors duration-300">
+                  {cat.name}
+                </h4>
+                <p className="text-center text-slate-600 text-sm leading-relaxed">
+                  {cat.desc}
+                </p>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </motion.section>
 
       {/* Subscription Section */}
       <motion.section 
-        className="container mx-auto px-6 py-24"
+        className="bg-white py-16"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={staggerContainer}
       >
-        <div className="flex flex-col md:flex-row items-center gap-12 max-w-6xl mx-auto">
-          <motion.div 
-            className="flex-1"
-            variants={fadeInUp}
-          >
-            <h3 className="text-4xl font-bold mb-6">
-              <motion.span 
-                className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-              >
-                Subscribe
-              </motion.span> to our plans
-            </h3>
-            <p className="text-gray-300 mb-8 text-lg">
-              Unlock unlimited access to thousands of ebooks with our flexible subscription plans. Choose what works best for you.
-            </p>
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
             <motion.div 
-              className="space-y-4"
-              variants={staggerContainer}
+              className="text-center mb-12"
+              variants={fadeInUp}
             >
-              {[
-                "Access to over 10,000 ebooks",
-                "Read from any device",
-                "New releases every week",
-                "Cancel anytime",
-              ].map((item, index) => (
-                <motion.div 
-                  key={index}
-                  className="flex items-center"
-                  variants={fadeInUp}
-                  custom={index}
-                >
-                  <motion.svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="h-5 w-5 text-pink-400 mr-3" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300, delay: index * 0.1 + 0.5 }}
-                  >
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </motion.svg>
-                  <span>{item}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-          
-          <motion.div 
-            className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6"
-            variants={staggerContainer}
-          >
-            <motion.div 
-              className="p-6 bg-gray-900 rounded-xl border border-gray-800 transition-all duration-300"
-              variants={cardVariants}
-              whileHover="hover"
-            >
-              <div className="text-lg font-semibold mb-1">Monthly</div>
-              <div className="text-3xl font-bold mb-4">
-                <span className="text-pink-400">$9.99</span>
-                <span className="text-sm text-gray-400">/month</span>
-              </div>
-              <ul className="text-gray-400 space-y-2 mb-6">
-                <li>1 active rental at a time</li>
-                <li>10 books per month</li>
-                <li>Basic support</li>
-              </ul>
-              <motion.button 
-                className="w-full py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300"
-                whileHover={{ scale: 1.03, boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.4)" }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Subscribe Now
-              </motion.button>
+              <h3 className="text-3xl font-bold mb-4 text-slate-800">
+                Choose Your <span className="text-blue-600">Plan</span>
+              </h3>
+              <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+                Unlock unlimited access to thousands of ebooks with our flexible subscription plans.
+              </p>
             </motion.div>
             
             <motion.div 
-              className="p-6 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl border border-pink-500/50 shadow-lg transition-all duration-300 relative overflow-hidden"
-              variants={cardVariants}
-              whileHover="hover"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+              variants={staggerContainer}
             >
               <motion.div 
-                className="absolute -right-6 -top-6 bg-pink-500 text-white text-xs font-bold px-8 py-1 rotate-45"
-                animate={{ 
-                  backgroundColor: ["#ec4899", "#a855f7", "#ec4899"],
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
+                className="bg-white p-8 rounded-xl border-2 border-slate-200 hover:border-blue-300 transition-colors duration-300"
+                variants={cardVariants}
+                whileHover="hover"
               >
-                POPULAR
+                <div className="text-center mb-6">
+                  <h4 className="text-xl font-semibold mb-2 text-slate-800">Monthly Plan</h4>
+                  <div className="text-4xl font-bold text-blue-600 mb-4">
+                     ₹9.99<span className="text-lg text-slate-500 font-normal">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center text-slate-600">
+                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Access to 10,000+ ebooks
+                  </li>
+                  <li className="flex items-center text-slate-600">
+                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    3 simultaneous rentals
+                  </li>
+                  <li className="flex items-center text-slate-600">
+                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Standard support
+                  </li>
+                </ul>
+                <motion.button 
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Get Started
+                </motion.button>
               </motion.div>
-              <div className="text-lg font-semibold mb-1">Yearly</div>
-              <div className="text-3xl font-bold mb-4">
-                <span className="text-pink-400">$89.99</span>
-                <span className="text-sm text-gray-400">/year</span>
-              </div>
-              <ul className="text-gray-300 space-y-2 mb-6">
-                <li>3 active rentals at a time</li>
-                <li>Unlimited books</li>
-                <li>Priority support</li>
-                <li>Early access to new titles</li>
-              </ul>
-              <motion.button 
-                className="w-full py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 shadow-lg shadow-pink-500/30"
-                whileHover={{ scale: 1.03, boxShadow: "0 10px 15px -3px rgba(236, 72, 153, 0.4)" }}
-                whileTap={{ scale: 0.97 }}
+              
+              <motion.div 
+                className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-xl border-2 border-blue-200 relative overflow-hidden"
+                variants={cardVariants}
+                whileHover="hover"
               >
-                Subscribe Now
-              </motion.button>
+                <div className="absolute -right-8 -top-8 bg-blue-600 text-white text-sm font-bold px-8 py-2 rotate-45">
+                  POPULAR
+                </div>
+                <div className="text-center mb-6">
+                  <h4 className="text-xl font-semibold mb-2 text-slate-800">Yearly Plan</h4>
+                  <div className="text-4xl font-bold text-blue-600 mb-4">
+                     ₹89.99<span className="text-lg text-slate-500 font-normal">/year</span>
+                  </div>
+                  <p className="text-sm text-green-600 font-medium">Save 25%</p>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center text-slate-600">
+                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Access to 10,000+ ebooks
+                  </li>
+                  <li className="flex items-center text-slate-600">
+                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    5 simultaneous rentals
+                  </li>
+                  <li className="flex items-center text-slate-600">
+                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Priority support
+                  </li>
+                  <li className="flex items-center text-slate-600">
+                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Early access to new releases
+                  </li>
+                </ul>
+                <motion.button 
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium shadow-lg"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Get Started
+                </motion.button>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </motion.section>
+
       {/* Footer */}
       <footer className="bg-gray-900 border-t border-gray-800 py-12">
         <div className="container mx-auto px-6">

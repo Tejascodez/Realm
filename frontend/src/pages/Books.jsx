@@ -527,53 +527,48 @@ const Books = () => {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {books.map((book) => (
-                        <div
-                            key={book._id || book.id || `book-${book.title}-${book.author}`} // Use _id if available, fall back to id, then a composite key
-                            className="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden hover:border-pink-500/30 hover:shadow-lg hover:shadow-pink-500/10 transition-all duration-300 group"
-                        >
-                            <div className="w-full h-52 bg-gray-800 relative overflow-hidden">
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    {/* Updated image element with sizing classes */}
-                                    <img
-                                        src={book.coverImage}
-                                        alt={book.title}
-                                        className="w-full h-full object-contain max-w-[90%] max-h-[90%]"
-                                    />
-                                </div>
-                                <div className="absolute top-4 right-4">
-                                    <button className="bg-black/40 hover:bg-black/60 p-2 rounded-full transition-all">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
+                    <div
+    key={book._id || book.id || `book-${book.title}-${book.author}`}
+    className="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden hover:border-pink-500/30 hover:shadow-lg hover:shadow-pink-500/10 transition-all duration-300 group"
+>
+    <div className="w-full h-52 relative">
+        <img
+            src={book.coverImage}
+            alt={book.title}
+            className="w-full h-full object-cover"
+        />
+        <div className="absolute top-4 right-4 z-10">
+            <button className="bg-black/40 hover:bg-black/60 p-2 rounded-full transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+            </button>
+        </div>
+    </div>
 
-                            <div className="p-6">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="text-lg font-bold text-white">{book.title}</h3>
-                                    <div className="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <span className="ml-1 text-sm text-gray-400">{book.ratings}</span>
-                                    </div>
-                                </div>
-                                <p className="text-gray-400 text-sm mb-4">By {book.author}</p>
+    <div className="p-5">
+        <div className="flex justify-between items-start mb-2">
+            <h3 className="text-lg font-semibold text-white leading-tight line-clamp-2">{book.title}</h3>
+            <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span className="ml-1 text-sm text-gray-400">{book.ratings}</span>
+            </div>
+        </div>
 
-                                <div className="flex justify-between items-center">
-                                    <span className="text-pink-400 font-bold">{book.price}</span>
-                                    <div className="flex space-x-2">
-                                        <Button onClick={() => addToCart(book)}>
-                                            Add to Cart
-                                        </Button>
-                                        <Button variant="outline" onClick={() => openRentalModal(book)}>
-                                            Rent
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <p className="text-gray-400 text-sm mb-4">By {book.author}</p>
+
+        <div className="flex justify-between items-center">
+            <span className="text-pink-400 font-bold">{book.price}</span>
+            <div className="flex space-x-2">
+                <Button onClick={() => addToCart(book)}>Add to Cart</Button>
+                <Button variant="outline" onClick={() => openRentalModal(book)}>Rent</Button>
+            </div>
+        </div>
+    </div>
+</div>
+
                     ))}
                 </div>
             </section>

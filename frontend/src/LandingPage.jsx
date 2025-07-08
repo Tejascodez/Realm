@@ -1,82 +1,74 @@
-import React, { useEffect } from "react";
-import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
+
+import  { useEffect, useState } from "react";
 import Carosel from "./components/Carosel";
 import Navbar from "./components/Navbar";
 import FeaturedBooks from "./components/FeaturedBooks";
+import { FaBook, FaLaptopCode, FaHistory } from "react-icons/fa";
+import { GiMagicGate, GiMicroscope } from "react-icons/gi";
+import { HiOutlineDocumentText } from "react-icons/hi";
+import { FaBookOpen, FaCloudDownloadAlt, FaUserFriends, FaRegBookmark } from "react-icons/fa";
+import SubscriptionSection from "./components/SubcriptionSection";
+
 
 export default function LandingPage() {
-  const { scrollY } = useScroll();
-  const controls = useAnimation();
-  
-  // Parallax effect for hero section
-  const heroY = useTransform(scrollY, [0, 300], [0, -50]);
-  
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
-    // Trigger animation sequence on load
-    const sequence = async () => {
-      await controls.start("visible");
-    };
-    sequence();
-  }, [controls]);
-
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  };
-  
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-  
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        type: "spring", 
-        stiffness: 100, 
-        damping: 12 
-      }
-    },
-    hover: { 
-      y: -10, 
-      boxShadow: "0 20px 25px -5px rgba(59, 130, 246, 0.15), 0 10px 10px -5px rgba(59, 130, 246, 0.08)" 
-    }
-  };
-  
-  const buttonVariants = {
-    hover: { 
-      scale: 1.05,
-      boxShadow: "0 10px 15px -3px rgba(59, 130, 246, 0.4), 0 4px 6px -2px rgba(59, 130, 246, 0.1)",
-      transition: { 
-        type: "spring", 
-        stiffness: 400, 
-        damping: 10 
-      }
-    },
-    tap: { scale: 0.95 }
-  };
-
-  const categories = [
-    { name: "Fiction", desc: "Novels and stories from various genres", icon: "📚" },
-    { name: "Non-fiction", desc: "Informative and factual books", icon: "📖" },
-    { name: "Science", desc: "Scientific topics and discoveries", icon: "🔬" },
-    { name: "Fantasy", desc: "Magic and mythical adventures", icon: "🐉" },
-    { name: "History", desc: "Historical events and figures", icon: "🏛️" },
-    { name: "Technology", desc: "Innovation and the digital world", icon: "💻" },
-  ];
+    // Trigger animations on load
+    setIsLoaded(true);
+  }, []);
+const categories = [
+  {
+    name: "Fiction",
+    desc: "Novels and stories from various genres",
+    icon: <FaBook />,
+    color: "text-purple-600",
+  },
+  {
+    name: "Non-fiction",
+    desc: "Informative and factual books",
+    icon: <HiOutlineDocumentText />,
+    color: "text-emerald-600",
+  },
+  {
+    name: "Science",
+    desc: "Scientific topics and discoveries",
+    icon: <GiMicroscope />,
+    color: "text-blue-600",
+  },
+  {
+    name: "Fantasy",
+    desc: "Magic and mythical adventures",
+    icon: <GiMagicGate />,
+    color: "text-pink-600",
+  },
+  {
+    name: "History",
+    desc: "Historical events and figures",
+    icon: <FaHistory />,
+    color: "text-yellow-600",
+  },
+  {
+    name: "Technology",
+    desc: "Innovation and the digital world",
+    icon: <FaLaptopCode />,
+    color: "text-indigo-600",
+  },
+];
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+  {categories.map((category, index) => (
+    <div
+      key={index}
+      className="bg-white p-6 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition"
+    >
+      <div className={`text-4xl mb-4 ${category.color}`}>
+        {category.icon}
+      </div>
+      <h3 className="text-xl font-semibold text-slate-800">{category.name}</h3>
+      <p className="text-slate-600">{category.desc}</p>
+    </div>
+  ))}
+</div>
 
   const stats = [
     { number: "10,000+", label: "Books Available", icon: "📚" },
@@ -85,124 +77,333 @@ export default function LandingPage() {
     { number: "24/7", label: "Customer Support", icon: "🛟" }
   ];
 
-  const features = [
-    {
-      icon: "📱",
-      title: "Cross-Platform Access",
-      description: "Read on any device - phone, tablet, or computer. Your library syncs everywhere.",
-      color: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: "🔍",
-      title: "Smart Search",
-      description: "Find exactly what you're looking for with our AI-powered search and recommendations.",
-      color: "from-purple-500 to-pink-500"
-    },
-    {
-      icon: "💾",
-      title: "Offline Reading",
-      description: "Download books for offline reading. Perfect for travel or areas with poor connectivity.",
-      color: "from-green-500 to-emerald-500"
-    },
-    {
-      icon: "🎨",
-      title: "Customizable Experience",
-      description: "Adjust fonts, themes, and reading settings to create your perfect reading environment.",
-      color: "from-orange-500 to-red-500"
-    }
-  ];
+const features = [
+  {
+    title: "Unlimited Access",
+    description: "Read any book, anytime with no restrictions or limits.",
+    icon: <FaBookOpen />,
+    color: "from-purple-400 to-indigo-600",
+  },
+  {
+    title: "Offline Mode",
+    description: "Download books and read offline wherever you are.",
+    icon: <FaCloudDownloadAlt />,
+    color: "from-blue-400 to-teal-500",
+  },
+  {
+    title: "Community Driven",
+    description: "Join a community of book lovers and share reviews.",
+    icon: <FaUserFriends />,
+    color: "from-green-400 to-emerald-600",
+  },
+  {
+    title: "Bookmark & Highlight",
+    description: "Save your favorite parts and resume where you left off.",
+    icon: <FaRegBookmark />,
+    color: "from-pink-400 to-rose-500",
+  },
+]
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+        }
+
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-fade-in {
+          animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in-left {
+          animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .animate-slide-in-right {
+          animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        .animate-scale-in {
+          animation: scaleIn 0.6s ease-out forwards;
+        }
+
+        .animate-pulse {
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        .stagger-delay-1 {
+          animation-delay: 0.1s;
+        }
+
+        .stagger-delay-2 {
+          animation-delay: 0.2s;
+        }
+
+        .stagger-delay-3 {
+          animation-delay: 0.3s;
+        }
+
+        .stagger-delay-4 {
+          animation-delay: 0.4s;
+        }
+
+        .stagger-delay-5 {
+          animation-delay: 0.5s;
+        }
+
+        .stagger-delay-6 {
+          animation-delay: 0.6s;
+        }
+
+        .hover-lift {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-lift:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.15), 0 10px 10px -5px rgba(59, 130, 246, 0.08);
+        }
+
+        .hover-scale {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-scale:hover {
+          transform: scale(1.05);
+        }
+
+        .hover-button {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-button:hover {
+          transform: scale(1.05);
+          box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4), 0 4px 6px -2px rgba(59, 130, 246, 0.1);
+        }
+
+        .hover-button:active {
+          transform: scale(0.95);
+        }
+
+        .parallax-hero {
+          transform: translateY(0);
+          transition: transform 0.1s ease-out;
+        }
+
+        .initial-hidden {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        .progress-bar {
+          background: linear-gradient(90deg, #3b82f6 0%, #3b82f6 68%, #e2e8f0 68%, #e2e8f0 100%);
+          animation: progress-fill 2s ease-out;
+        }
+
+        @keyframes progress-fill {
+          from {
+            background: linear-gradient(90deg, #3b82f6 0%, #3b82f6 0%, #e2e8f0 0%, #e2e8f0 100%);
+          }
+          to {
+            background: linear-gradient(90deg, #3b82f6 0%, #3b82f6 68%, #e2e8f0 68%, #e2e8f0 100%);
+          }
+        }
+
+        .feature-card {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover .feature-icon {
+          transform: scale(1.1);
+        }
+
+        .feature-card:hover .feature-title {
+          color: #2563eb;
+        }
+
+        .feature-icon {
+          transition: transform 0.3s ease;
+        }
+
+        .feature-title {
+          transition: color 0.3s ease;
+        }
+
+        .category-card {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .category-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-card:hover .category-icon {
+          transform: scale(1.25);
+        }
+
+        .category-card:hover .category-title {
+          color: #4f46e5;
+        }
+
+        .category-icon {
+          transition: transform 0.3s ease;
+        }
+
+        .category-title {
+          transition: color 0.3s ease;
+        }
+
+        .plan-card {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .plan-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-button {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .plan-button:hover {
+          transform: scale(1.02);
+        }
+
+        .plan-button:active {
+          transform: scale(0.98);
+        }
+      `}</style>
+
       {/* Navbar */}
       <Navbar/>
 
-      {/* Hero Section with Parallax */}
+      {/* Hero Section */}
       <Carosel/>
 
       {/* Featured Books */}
       <FeaturedBooks/>
 
       {/* Stats Section */}
-      <motion.section 
-        className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 py-20"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={staggerContainer}
-      >
+      <section className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 py-20">
         <div className="container mx-auto px-6">
-          <motion.div 
-            className="text-center mb-16"
-            variants={fadeInUp}
-          >
+          <div className={`text-center mb-16 initial-hidden ${isLoaded ? 'animate-fade-in-up' : ''}`}>
             <h2 className="text-4xl font-bold text-white mb-4">
               Trusted by Readers Worldwide
             </h2>
             <p className="text-blue-100 text-lg max-w-2xl mx-auto">
               Join thousands of book lovers who have discovered their next favorite read with REALM
             </p>
-          </motion.div>
+          </div>
           
-          <motion.div 
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
-            variants={staggerContainer}
-          >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <motion.div
+              <div
                 key={index}
-                className="text-center"
-                variants={cardVariants}
-                whileHover={{ scale: 1.05 }}
+                className={`text-center hover-scale initial-hidden ${isLoaded ? 'animate-scale-in' : ''} stagger-delay-${index + 1}`}
               >
                 <div className="text-4xl mb-4">{stat.icon}</div>
                 <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
                 <div className="text-blue-100 text-sm">{stat.label}</div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Features Section */}
-      <motion.section 
-        className="py-20 bg-white"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={staggerContainer}
-      >
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <motion.div 
-            className="text-center mb-16"
-            variants={fadeInUp}
-          >
+          <div className={`text-center mb-16 initial-hidden ${isLoaded ? 'animate-fade-in-up' : ''}`}>
             <h2 className="text-4xl font-bold text-slate-800 mb-4">
               Why Choose <span className="text-blue-600">REALM</span>?
             </h2>
             <p className="text-slate-600 text-lg max-w-2xl mx-auto">
               We've built the ultimate reading experience with features designed for modern book lovers
             </p>
-          </motion.div>
+          </div>
           
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto"
-            variants={staggerContainer}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {features.map((feature, index) => (
-              <motion.div
+              <div
                 key={index}
-                className="group relative overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-200"
-                variants={cardVariants}
-                whileHover="hover"
+                className={`feature-card group relative overflow-hidden bg-white rounded-2xl shadow-lg border border-slate-200 initial-hidden ${isLoaded ? 'animate-fade-in-up' : ''} stagger-delay-${index + 1}`}
               >
                 <div className="p-8">
                   <div className="flex items-center mb-6">
-                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br  ₹{feature.color} flex items-center justify-center text-2xl shadow-lg`}>
+                    <div className={`feature-icon w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center text-2xl shadow-lg`}>
                       {feature.icon}
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-xl font-semibold text-slate-800 group-hover:text-blue-600 transition-colors duration-300">
+                      <h3 className="feature-title text-xl font-semibold text-slate-800">
                         {feature.title}
                       </h3>
                     </div>
@@ -211,28 +412,19 @@ export default function LandingPage() {
                     {feature.description}
                   </p>
                 </div>
-                <div className={`absolute inset-0 bg-gradient-to-br  ₹{feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
-              </motion.div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Reading Experience Showcase */}
-      <motion.section 
-        className="py-20 bg-gradient-to-br from-slate-50 to-blue-50"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={staggerContainer}
-      >
+      <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto">
-            <motion.div 
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-              variants={staggerContainer}
-            >
-              <motion.div variants={fadeInUp}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className={`initial-hidden ${isLoaded ? 'animate-slide-in-left' : ''}`}>
                 <h2 className="text-4xl font-bold text-slate-800 mb-6">
                   Immersive Reading Experience
                 </h2>
@@ -265,19 +457,12 @@ export default function LandingPage() {
                     <span className="text-slate-700">Reading progress and goal tracking</span>
                   </div>
                 </div>
-                <motion.button 
-                  className="mt-8 bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+                <button className="mt-8 bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg hover-button">
                   Start Reading Today
-                </motion.button>
-              </motion.div>
+                </button>
+              </div>
               
-              <motion.div 
-                className="relative"
-                variants={fadeInUp}
-              >
+              <div className={`relative initial-hidden ${isLoaded ? 'animate-slide-in-right' : ''}`}>
                 <div className="bg-white rounded-2xl shadow-2xl p-8 relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-purple-500"></div>
                   <div className="mb-6">
@@ -298,7 +483,7 @@ export default function LandingPage() {
                       <span className="text-sm font-semibold text-blue-600">68%</span>
                     </div>
                     <div className="w-full bg-slate-200 rounded-full h-2">
-                      <div className="bg-blue-500 h-2 rounded-full w-2/3"></div>
+                      <div className="progress-bar h-2 rounded-full"></div>
                     </div>
                     <div className="flex justify-between text-xs text-slate-500">
                       <span>Chapter 7</span>
@@ -306,209 +491,47 @@ export default function LandingPage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Categories */}
-      <motion.section
-        className="bg-gradient-to-br from-slate-50 to-white py-20"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={staggerContainer}
-      >
+      <section className="bg-gradient-to-br from-slate-50 to-white py-20">
         <div className="container mx-auto px-6">
-          <motion.h3
-            className="text-4xl font-bold mb-16 text-center text-slate-800 tracking-tight"
-            variants={fadeInUp}
-          >
+          <h3 className={`text-4xl font-bold mb-16 text-center text-slate-800 tracking-tight initial-hidden ${isLoaded ? 'animate-fade-in-up' : ''}`}>
             Browse Categories
-          </motion.h3>
+          </h3>
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+  {categories.map((category, index) => (
+    <div
+      key={index}
+      className="bg-white p-6 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition"
+    >
+      <div className={`text-4xl mb-4 ${category.color}`}>
+        {category.icon}
+      </div>
+      <h3 className="text-xl font-semibold text-slate-800">{category.name}</h3>
+      <p className="text-slate-600">{category.desc}</p>
+    </div>
+  ))}
+</div>
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={staggerContainer}
-          >
-            {categories.map((cat, index) => (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                whileHover="hover"
-                className="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 hover:shadow-2xl transition-all duration-300 group"
-              >
-                <div className="flex justify-center mb-6">
-                  <div className="text-5xl transition-transform duration-300 group-hover:scale-125">
-                    {cat.icon}
-                  </div>
-                </div>
-                <h4 className="text-xl font-semibold text-center text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors duration-300">
-                  {cat.name}
-                </h4>
-                <p className="text-center text-slate-600 text-sm leading-relaxed">
-                  {cat.desc}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Subscription Section */}
-      <motion.section 
-        className="bg-white py-16"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={staggerContainer}
-      >
-        <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <motion.div 
-              className="text-center mb-12"
-              variants={fadeInUp}
-            >
-              <h3 className="text-3xl font-bold mb-4 text-slate-800">
-                Choose Your <span className="text-blue-600">Plan</span>
-              </h3>
-              <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-                Unlock unlimited access to thousands of ebooks with our flexible subscription plans.
-              </p>
-            </motion.div>
-            
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
-              variants={staggerContainer}
-            >
-              <motion.div 
-                className="bg-white p-8 rounded-xl border-2 border-slate-200 hover:border-blue-300 transition-colors duration-300"
-                variants={cardVariants}
-                whileHover="hover"
-              >
-                <div className="text-center mb-6">
-                  <h4 className="text-xl font-semibold mb-2 text-slate-800">Monthly Plan</h4>
-                  <div className="text-4xl font-bold text-blue-600 mb-4">
-                     ₹9.99<span className="text-lg text-slate-500 font-normal">/month</span>
-                  </div>
-                </div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center text-slate-600">
-                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Access to 10,000+ ebooks
-                  </li>
-                  <li className="flex items-center text-slate-600">
-                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    3 simultaneous rentals
-                  </li>
-                  <li className="flex items-center text-slate-600">
-                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Standard support
-                  </li>
-                </ul>
-                <motion.button 
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Get Started
-                </motion.button>
-              </motion.div>
-              
-              <motion.div 
-                className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-xl border-2 border-blue-200 relative overflow-hidden"
-                variants={cardVariants}
-                whileHover="hover"
-              >
-                <div className="absolute -right-8 -top-8 bg-blue-600 text-white text-sm font-bold px-8 py-2 rotate-45">
-                  POPULAR
-                </div>
-                <div className="text-center mb-6">
-                  <h4 className="text-xl font-semibold mb-2 text-slate-800">Yearly Plan</h4>
-                  <div className="text-4xl font-bold text-blue-600 mb-4">
-                     ₹89.99<span className="text-lg text-slate-500 font-normal">/year</span>
-                  </div>
-                  <p className="text-sm text-green-600 font-medium">Save 25%</p>
-                </div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center text-slate-600">
-                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Access to 10,000+ ebooks
-                  </li>
-                  <li className="flex items-center text-slate-600">
-                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    5 simultaneous rentals
-                  </li>
-                  <li className="flex items-center text-slate-600">
-                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Priority support
-                  </li>
-                  <li className="flex items-center text-slate-600">
-                    <svg className="h-5 w-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Early access to new releases
-                  </li>
-                </ul>
-                <motion.button 
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium shadow-lg"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Get Started
-                </motion.button>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
+       <SubscriptionSection/>
 
       {/* Footer */}
-      <footer className="bg-gray-900 border-t border-gray-800 py-12">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <h2 className="text-xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-                REALM
-              </h2>
-              <p className="text-gray-400 mt-2">Your digital library, anywhere.</p>
-            </div>
-            <div className="flex space-x-6">
-              <a href="#" className="text-gray-400 hover:text-pink-400 transition-colors duration-300">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd"></path>
-                </svg>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-pink-400 transition-colors duration-300">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
-                </svg>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-pink-400 transition-colors duration-300">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} REALM. All rights reserved.
-          </div>
-        </div>
-      </footer>
+  <footer className="bg-gray-900 text-gray-400 py-4">
+  <div className="container mx-auto px-6 text-center">
+    <div className="mt-6 border-t border-gray-800 pt-4 text-sm">
+      &copy; {new Date().getFullYear()} REALM. Developed by <span className="text-blue-400 font-medium">Tejas</span>.
+    </div>
+  </div>
+</footer>
     </div>
   );
 }
